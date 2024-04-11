@@ -1,0 +1,20 @@
+plugins:
+  user_response_times_enabled:
+    client: true
+    default: false
+  user_response_times_percentile:
+    client: false
+    default: 80
+    min: 1
+    max: 100
+  user_response_times_days:
+    client: false
+    min: 1
+    default: 60
+  user_response_times_mode:
+    client: false
+    type: enum
+    default: "percentile"
+    choices:
+    - "percentile"
+    - "average"

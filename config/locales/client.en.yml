@@ -1,0 +1,4 @@
+en:
+  js:
+    user_response_times:
+      user_card: "Usually responds within {{time}}"

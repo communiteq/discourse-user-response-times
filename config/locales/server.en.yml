@@ -1,0 +1,6 @@
+en:
+  site_settings:
+    user_response_times_enabled: "Enable the User Response Times plugin."
+    user_response_times_days: "Number of days to consider when calculating the response time."
+    user_response_times_mode: "Calculation method to use."
+    user_response_times_percentile: "Percentile to use for calculation."
