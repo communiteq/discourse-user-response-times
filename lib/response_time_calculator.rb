@@ -1,6 +1,8 @@
 class ResponseTimeCalculator
 
   def self.update_response_times
+    existing_user_ids = UserCustomField.where(name: "response_time_seconds").pluck("user_id")
+
     DB.query(<<~SQL, percentile: SiteSetting.user_response_times_percentile, days: SiteSetting.user_response_times_days).each do |response_obj|
       SELECT
         user_id,
@@ -45,14 +47,20 @@ class ResponseTimeCalculator
       GROUP BY user_id;
     SQL
       user = User.find(response_obj.user_id)
-      case SiteSetting.user_response_times_mode
-      when "percentile"
-        response_time = response_obj.perc_response_seconds
-      when "average"
-        response_time = response_obj.avg_response_seconds
+      if user
+        existing_user_ids -= [user.id]
+        case SiteSetting.user_response_times_mode
+        when "percentile"
+          response_time = response_obj.perc_response_seconds
+        when "average"
+          response_time = response_obj.avg_response_seconds
+        end
+        user.custom_fields["response_time_seconds"] = response_time
+        user.save_custom_fields
       end
-      user.custom_fields["response_time_seconds"] = response_time
-      user.save_custom_fields
     end
+
+    # clean up old records that were left behind
+    UserCustomField.where(name: "response_time_seconds").where(user_id: [existing_user_ids]).delete_all
   end
 end
