@@ -2,7 +2,7 @@
 
 # name: discourse-user-response-times
 # about: Show the average PM response time for a user
-# meta_topic_id: 1234
+# meta_topic_id: 303542
 # version: 1.0
 # authors: Communiteq
 # url: https://github.com/communiteq/discourse-user-response-times
